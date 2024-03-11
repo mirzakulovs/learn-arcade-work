@@ -1,85 +1,70 @@
 import random
 
+def adventure_game():
+    done = False
+    gold_collected = 0
+    health = 100
+    distance_to_destination = 200
+    monsters_defeated = 0
+    potions_available = 3
 
-def main():
-  done = False
-  miles_traveled = 0
-  thirst = 0
-  camel_tiredness = 0
-  distance_natives = -20
-  drinks_in_canteen = 3
+    while not done:
+        random_distance = random.randint(5, 20)
+        random_monster = random.randint(1, 10)
+        random_event = random.randint(1, 20)
 
-  while not done:
-    random_num = random.randint(7, 14)
-    random_move = random.randint(10, 20)
-    random_go_ahead = random.randint(5, 12)
-    random_camel_tiredness = random.randint(1, 3)
-    random_oasis = random.randint(1, 20)
+        print(
+            "\nA. Explore.\nB. Rest to restore health.\nC. Drink a health potion.\nD. Check progress.\nQ. Quit."
+        )
+        choice = input("What is your choice? ").upper()
 
-    print(
-        "\nA. Drink from your canteen.\nB. Ahead moderate speed.\nC. Ahead full speed.\nD. Stop for the night.\nE. Status check.\nQ. Quit."
-    )
-    choice = input("What is your choice? ").upper()
+        if choice == "Q":
+            done = True
+            print("\nGame Over\n")
 
-    if choice == "Q":
-      done = True
-      print("\nGame Over\n")
+        elif choice == "D":
+            print(
+                f"\nGold collected: {gold_collected}\nHealth: {health}\nDistance to destination: {distance_to_destination}\nMonsters defeated: {monsters_defeated}\nPotions available: {potions_available}\n"
+            )
 
-    elif choice == "E":
-      print(
-          f"\nMiles traveled: {miles_traveled}\nDrinks in canteen: {drinks_in_canteen}\nThirst level: {thirst}\nCamel Tiredness: {camel_tiredness}\nThe natives are {abs(miles_traveled - distance_natives)} miles behind you.\n"
-      )
+        elif choice == "C":
+            if potions_available > 0:
+                health += random.randint(15, 30)
+                health = min(health, 100)  # Ensure health doesn't exceed 100
+                potions_available -= 1
+                print("\nYou drank a health potion. Health +{}\n".format(health))
+            else:
+                print("\nNo potions left!\n")
 
-    elif choice == "D":
-      camel_tiredness = 0
-      print("\nCamel is happy!\n")
-      distance_natives += random_num
+        elif choice == "B":
+            health += random.randint(5, 15)
+            health = min(health, 100)  # Ensure health doesn't exceed 100
+            print("\nYou rested to restore health. Health +{}\n".format(health))
 
-    elif choice == "C":
-      miles_traveled += random_move
-      print(f"\nYou traveled {random_move} miles\n")
-      thirst += 1
-      camel_tiredness += random_camel_tiredness
-      distance_natives += random_num
+        elif choice == "A":
+            gold_found = random.randint(10, 30)
+            gold_collected += gold_found
+            distance_to_destination -= random_distance
+            health -= random.randint(5, 15)
+            monsters_defeated += 1
 
-    elif choice == "B":
-      miles_traveled += random_go_ahead
-      print(f"\nYou traveled {random_go_ahead} miles\n")
-      thirst += 1
-      camel_tiredness += 1
-      distance_natives += random_num
+            if random_event == 1:
+                print("\nYou stumbled upon a hidden treasure! +50 gold!\n")
+                gold_collected += 50
 
-    elif choice == "A":
-      if drinks_in_canteen > 0:
-        drinks_in_canteen -= 1
-        thirst = 0
-        print("\nYou drank from your canteen.\n")
-      else:
-        print("\nYou have no water left!\n")
+            elif random_event == 2:
+                print("\nYou encountered a fearsome dragon! Health -20!\n")
+                health -= 20
 
-    if thirst > 4:
-      print("\nYou are thirsty!\n")
-    if camel_tiredness > 5:
-      print("\nYour camel is getting tired!\n")
+            print("\nYou explored and collected {} gold. Distance to destination: {}\n".format(gold_found, distance_to_destination))
 
-    if miles_traveled >= 200:
-      done = True
-      print("\nYou won! Congratulations!\n")
+        if health <= 0:
+            done = True
+            print("\nYou were defeated. Game Over!\n")
 
-    if random_oasis == 17:
-      print(
-          "\nYou found an oasis! Your canteen is refilled, and your camel is rested.\n"
-      )
-      drinks_in_canteen = 3
-      camel_tiredness = 0
+        if distance_to_destination <= 0:
+            done = True
+            print("\nCongratulations! You reached your destination!\n")
 
-    if distance_natives >= miles_traveled:
-      print("\nThe natives caught up to you!\n")
-      done = True
-    elif distance_natives + 15 > miles_traveled:
-      print("\nThe natives are getting closer!\n")
+    print("\nGame Over\n")
 
-  print("\nGame Over\n")
-
-
-main()
