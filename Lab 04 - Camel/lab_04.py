@@ -1,6 +1,6 @@
 import random
 
-def adventure_game():
+def main():
     done = False
     gold_collected = 0
     health = 100
@@ -71,4 +71,4 @@ def adventure_game():
 
     print("\nGame Over\n")
 
-adventure_game()
+main()
