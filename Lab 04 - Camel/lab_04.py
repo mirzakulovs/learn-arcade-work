@@ -43,9 +43,9 @@ def adventure_game():
 
         elif choice == "A":
             gold_found = random.randint(10, 30)
-            gold_collected += gold_found
             distance_to_destination -= random_distance
-            health -= random.randint(5, 15)
+            health_loss = random.randint(5, 15)
+            health -= health_loss
             monsters_defeated += 1
 
             if random_event == 1:
@@ -58,6 +58,9 @@ def adventure_game():
 
             print("\nYou explored and collected {} gold. Distance to destination: {}\n".format(gold_found, distance_to_destination))
 
+        elif choice not in ['A', 'B', 'C', 'D']:
+            print("\nInvalid choice. Please choose A, B, C, D, or Q.\n")
+
         if health <= 0:
             done = True
             print("\nYou were defeated. Game Over!\n")
@@ -68,3 +71,4 @@ def adventure_game():
 
     print("\nGame Over\n")
 
+adventure_game()
